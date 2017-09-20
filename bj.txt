@@ -1,0 +1,148 @@
+// BLACKJACK
+using System; //must be specified always I think
+using System.Linq; //must be specified for summing the tuples
+using System.Collections.Generic; //must be specified when using lists
+namespace BLACKJACK
+{
+    class BJ
+    {
+        static Random rand = new Random();
+        static Random rand2 = new Random();
+    
+        static public void Shuffle<T>(T[] deck)
+            {
+                for (int n = deck.Length - 1; n > 0; --n)
+                    {
+                        int k = rand.Next(n+1);
+                        T t = deck[n];
+                        deck[n] = deck[k];
+                        deck[k] = t;
+                    }
+            }
+
+        static public void Main()
+        {
+                Console.Clear(); //this clears the screen to make it look NICE
+                Console.WriteLine("Welcome to Black Jack!\n");
+
+                Tuple<int, string, string, int>[] deck = 
+                    {   Tuple.Create(2,"2","Clubs",2),
+                        Tuple.Create(3,"3","Clubs",3),
+                        Tuple.Create(4,"4","Clubs",4),
+                        Tuple.Create(5,"5","Clubs",5),
+                        Tuple.Create(6,"6","Clubs",6),
+                        Tuple.Create(7,"7","Clubs",7),
+                        Tuple.Create(8,"8","Clubs",8),
+                        Tuple.Create(9,"9","Clubs",9),
+                        Tuple.Create(10,"10","Clubs",10),
+                        Tuple.Create(10,"Jack","Clubs",10),
+                        Tuple.Create(10,"Queen","Clubs",10),
+                        Tuple.Create(10,"King","Clubs",10),
+                        Tuple.Create(11,"Ace","Clubs",1),
+                        Tuple.Create(2,"2","Diamonds",2),
+                        Tuple.Create(3,"3","Diamonds",3),
+                        Tuple.Create(4,"4","Diamonds",4),
+                        Tuple.Create(5,"5","Diamonds",5),
+                        Tuple.Create(6,"6","Diamonds",6),
+                        Tuple.Create(7,"7","Diamonds",7),
+                        Tuple.Create(8,"8","Diamonds",8),
+                        Tuple.Create(9,"9","Diamonds",9),
+                        Tuple.Create(10,"10","Diamonds",10),
+                        Tuple.Create(10,"Jack","Diamonds",10),
+                        Tuple.Create(10,"Queen","Diamonds",10),
+                        Tuple.Create(10,"King","Diamonds",10),
+                        Tuple.Create(11,"Ace","Diamonds",1),
+                        Tuple.Create(2,"2","Hearts",2),
+                        Tuple.Create(3,"3","Hearts",3),
+                        Tuple.Create(4,"4","Hearts",4),
+                        Tuple.Create(5,"5","Hearts",5),
+                        Tuple.Create(6,"6","Hearts",6),
+                        Tuple.Create(7,"7","Hearts",7),
+                        Tuple.Create(8,"8","Hearts",8),
+                        Tuple.Create(9,"9","Hearts",9),
+                        Tuple.Create(10,"10","Hearts",10),
+                        Tuple.Create(10,"Jack","Hearts",10),
+                        Tuple.Create(10,"Queen","Hearts",10),
+                        Tuple.Create(10,"King","Hearts",10),
+                        Tuple.Create(11,"Ace","Hearts",1),
+                        Tuple.Create(2,"2","Spades",2),
+                        Tuple.Create(3,"3","Spades",3),
+                        Tuple.Create(4,"4","Spades",4),
+                        Tuple.Create(5,"5","Spades",5),
+                        Tuple.Create(6,"6","Spades",6),
+                        Tuple.Create(7,"7","Spades",7),
+                        Tuple.Create(8,"8","Spades",8),
+                        Tuple.Create(9,"9","Spades",9),
+                        Tuple.Create(10,"10","Spades",10),
+                        Tuple.Create(10,"Jack","Spades",10),
+                        Tuple.Create(10,"Queen","Spades",10),
+                        Tuple.Create(10,"King","Spades",10),
+                        Tuple.Create(11,"Ace","Spades",1),
+                    }; //this tuple list contains each playing card. The values are Value, Name, Suit, and Alt Value. Alt Value is the same for all cards except the Ace since it can be 11 or 1.
+
+                Shuffle(deck); //shuffles the deck using the earlier shuffle fucntion
+                
+                int cardsdrawn = 0; //indicates how many cards have been drawn from the deck. Should be incremented each time one is drawn.
+
+
+                var DealerHand = new List<Tuple<int, string, string, int>>{}; //creates a new Tuple list. This will be used to hold all of the cards in the dealer's hand.
+
+                //deals the first card to the dealer. In standard blackjack the order would be 1-player, 2-dealer, 3-player, 4-dealer but since this is a random list and the player can't see the deck, it doesn't matter since the end result is the same.
+                DealerHand.Add(Tuple.Create(deck[cardsdrawn].Item1, deck[cardsdrawn].Item2, deck[cardsdrawn].Item3, deck[cardsdrawn].Item4)); // adds the first card to the dealer's hand (DealerHand tuple list)
+                cardsdrawn = cardsdrawn + 1;
+
+                //deals the second card to the dealer.
+                DealerHand.Add(Tuple.Create(deck[cardsdrawn].Item1, deck[cardsdrawn].Item2, deck[cardsdrawn].Item3, deck[cardsdrawn].Item4));
+                Console.WriteLine("\n\nThe dealer is showing a " + deck[cardsdrawn].Item2 + " of " + deck[cardsdrawn].Item3);
+                cardsdrawn = cardsdrawn + 1;
+
+
+                Console.WriteLine("\n\nHere are your cards:");
+
+                var PlayerHand = new List<Tuple<int, string, string, int>>{}; //creates a new Tuple list. This will be used to hold all of the cards in the player's hand.
+
+                //deals the first card to the player
+                PlayerHand.Add(Tuple.Create(deck[cardsdrawn].Item1, deck[cardsdrawn].Item2, deck[cardsdrawn].Item3, deck[cardsdrawn].Item4)); // adds the first card to the player's hand (PlayerHand tuple list)
+                Console.WriteLine("\n" + PlayerHand[0].Item2 + " of " + PlayerHand[0].Item3);
+                cardsdrawn = cardsdrawn + 1; // increments cardsdrawn by 1 to move to the next card in the deck.
+
+                //deals the second card to the player
+                PlayerHand.Add(Tuple.Create(deck[cardsdrawn].Item1, deck[cardsdrawn].Item2, deck[cardsdrawn].Item3, deck[cardsdrawn].Item4));
+                Console.WriteLine(deck[cardsdrawn].Item2 + " of " + deck[cardsdrawn].Item3);
+                cardsdrawn = cardsdrawn + 1;
+
+                Console.WriteLine("\n" + "The value of your hand is " + PlayerHand.Sum(i => i.Item1) + "."); //Writes the sum of the Item1 (value) column within the PlayerHand tuple. This same general formula can be used to sum any numeric column in a tuple.
+
+                do
+                {
+                    Console.WriteLine("\n\nWould you like to Hit or Stay?");
+                    string playerchoice = Console.ReadLine();
+
+                    if(playerchoice != "Hit" && playerchoice != "hit")
+                    {
+                        break;
+                    }
+
+                    if(playerchoice == "Hit" || playerchoice == "hit")
+                    {
+                        PlayerHand.Add(Tuple.Create(deck[cardsdrawn].Item1, deck[cardsdrawn].Item2, deck[cardsdrawn].Item3, deck[cardsdrawn].Item4));
+                        Console.WriteLine("\nYou are dealt a " + deck[cardsdrawn].Item2 + " of " + deck[cardsdrawn].Item3);
+                        cardsdrawn = cardsdrawn + 1;
+                        Console.WriteLine("\n" + "The new value of your hand is " + PlayerHand.Sum(i => i.Item1) + ".");
+                    }
+                } while (PlayerHand.Sum(i => i.Item1) < 22);
+                
+                if(PlayerHand.Sum(i => i.Item1) > 21)
+                {
+                    Console.WriteLine("\nOops! You bust! Try again next time!");
+                    System.Environment.Exit(1); //EXITS THE PROGRAM. THIS WILL EVENTUALLY BE REPLACED BY A NICE LOOP.
+                }
+
+                Console.WriteLine("\n\nThe dealer has a " + DealerHand[0].Item2 + " of " + DealerHand[0].Item3 + " and a " + DealerHand[1].Item2 + " of " + DealerHand[1].Item3 + ".");
+
+
+
+
+        }    
+    }
+}
